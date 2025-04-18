@@ -16,22 +16,22 @@ function TierMaker() {
     items: []
   })
 
-  const [levelS, itemS] = useDragAndDrop(tiers.s, {
+  const [levelS, itemS, setLevelS] = useDragAndDrop(tiers.s, {
     group: 'tierList'
   })
-  const [levelA, itemA] = useDragAndDrop(tiers.a, {
+  const [levelA, itemA, setLevelA] = useDragAndDrop(tiers.a, {
     group: 'tierList'
   })
-  const [levelB, itemB] = useDragAndDrop(tiers.b, {
+  const [levelB, itemB, setLevelB] = useDragAndDrop(tiers.b, {
     group: 'tierList'
   })
-  const [levelC, itemC] = useDragAndDrop(tiers.c, {
+  const [levelC, itemC, setLevelC] = useDragAndDrop(tiers.c, {
     group: 'tierList'
   })
-  const [levelD, itemD] = useDragAndDrop(tiers.d, {
+  const [levelD, itemD, setLevelD] = useDragAndDrop(tiers.d, {
     group: 'tierList'
   })
-  const [levelE, itemE] = useDragAndDrop(tiers.e, {
+  const [levelE, itemE, setLevelE] = useDragAndDrop(tiers.e, {
     group: 'tierList'
   })
   const [freeLevel, freeItem, setFreeItem] = useDragAndDrop(tiers.items, {
@@ -122,6 +122,16 @@ function TierMaker() {
     })
   }
 
+  const handleReset = () => {
+    setLevelS([])
+    setLevelA([])
+    setLevelB([])
+    setLevelC([])
+    setLevelD([])
+    setLevelE([])
+    setFreeItem([])
+  }
+
   return (
     <div className='flex flex-col items-center justify-center w-full h-full gap-1'>
       {/* Tier S */}
@@ -157,6 +167,12 @@ function TierMaker() {
           className='px-4 py-2 bg-green-500 text-white rounded hover:bg-green-600 cursor-pointer'
         >
           Guardar Imagen
+        </Button>
+        <Button
+          onPress={handleReset}
+          className='px-4 py-2 bg-red-500 text-white rounded hover:bg-red-600 cursor-pointer'
+        >
+          Reset
         </Button>
       </div>
 
