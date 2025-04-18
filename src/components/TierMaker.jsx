@@ -41,31 +41,33 @@ function TierMaker() {
   const fileInputRef = useRef(null)
 
   const handleImageUpload = (e) => {
-    const [file] = e.target.files
-    if (!file) return
+    const files = Array.from(e.target.files)
+    if (files.length === 0) return
 
-    const reader = new FileReader()
-    reader.onload = (event) => {
-      const img = new Image()
-      img.onload = () => {
-        const canvas = document.createElement('canvas')
-        canvas.width = 80
-        canvas.height = 80
-        const ctx = canvas.getContext('2d')
-        ctx.drawImage(img, 0, 0, 80, 80)
+    files.forEach((file) => {
+      const reader = new FileReader()
+      reader.onload = (event) => {
+        const img = new Image()
+        img.onload = () => {
+          const canvas = document.createElement('canvas')
+          canvas.width = 80
+          canvas.height = 80
+          const ctx = canvas.getContext('2d')
+          ctx.drawImage(img, 0, 0, 80, 80)
 
-        const resizedDataUrl = canvas.toDataURL('image/png')
-        const newItemObj = { id: generateId(), src: resizedDataUrl }
+          const resizedDataUrl = canvas.toDataURL('image/png')
+          const newItemObj = { id: generateId(), src: resizedDataUrl }
 
-        setFreeItem((prev) => [...prev, newItemObj])
-        setTiers((prev) => ({
-          ...prev,
-          items: [...prev.items, newItemObj]
-        }))
+          setFreeItem((prev) => [...prev, newItemObj])
+          setTiers((prev) => ({
+            ...prev,
+            items: [...prev.items, newItemObj]
+          }))
+        }
+        img.src = event.target.result
       }
-      img.src = event.target.result
-    }
-    reader.readAsDataURL(file)
+      reader.readAsDataURL(file)
+    })
   }
 
   const handleSaveImage = () => {
@@ -152,10 +154,12 @@ function TierMaker() {
         <input
           type='file'
           accept='image/*'
+          multiple
           onChange={handleImageUpload}
           ref={fileInputRef}
           className='hidden'
         />
+
         <Button
           onPress={() => fileInputRef.current.click()}
           className='px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600 cursor-pointer'
